@@ -13,6 +13,70 @@ from django.contrib.auth.models import User
 from django.utils.dateparse import parse_date
 from decimal import Decimal
 from datetime import timedelta
+from .models import *
+from django.db.models import Sum
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+MONTH_NAME_TO_NUMBER = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August': 8,
+    'September': 9,
+    'October': 10,
+    'November': 11,
+    'December': 12
+}
+
+class MonthlyAnalysisAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request):
+        
+        month_name = request.data.get('month_name', '').capitalize()
+        year = request.data.get('year')
+
+        if not month_name:
+            return Response({"error": "Month is required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not year:
+            return Response({"error": "year is required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+
+        # Convert month name to month number
+        month = MONTH_NAME_TO_NUMBER.get(month_name) 
+
+
+        # Filter expenses by month and year
+        expenses = Expense.objects.filter(date__month=month, date__year=year)
+        
+        # Group by category and sum the amounts
+        expense_summary = expenses.values('category__name').annotate(total_amount=Sum('amount'))
+        
+        # Get settlement summary (total paid, total pending, total overdue)
+        settlements = Settlement.objects.filter(due_date__month=month, due_date__year=year)
+        settlement_summary = {
+            "total_paid": settlements.filter(payment_status='paid').aggregate(Sum('amount'))['amount__sum'],
+            "total_pending": settlements.filter(payment_status='pending').aggregate(Sum('amount'))['amount__sum']
+          
+        }
+
+        # Respond with the expense and settlement summaries
+        return Response({
+            "expense_summary": expense_summary,
+            "settlement_summary": settlement_summary,
+        }, status=status.HTTP_200_OK)
+
 
 
 def generate_otp():
@@ -54,7 +118,7 @@ class OTPView(APIView):
     def post(self, request):
         email = request.data.get("email")
         if not email:
-            return Response({"error": "Session expired or email not found."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Please provide email."}, status=status.HTTP_400_BAD_REQUEST)
 
         user_entered_otp = request.data.get("otp", "").strip()
 
@@ -72,8 +136,10 @@ class OTPView(APIView):
         if user:
             user.otp=None
             user.save()
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
            
-            return Response({"message": "OTP verified successfully!"}, status=status.HTTP_200_OK)
+            return Response({"message": "OTP verified successfully!","access_token":access_token}, status=status.HTTP_200_OK)
 
         return Response({"error": "Invalid OTP."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -120,6 +186,9 @@ class StudentRegistrationView(APIView):
 
 
 class CreateGroupView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         group_name = request.data.get("name")
        
@@ -136,6 +205,9 @@ class CreateGroupView(APIView):
 
 
 class AddStudentToGroupView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         group_id = request.data.get("group_id")
         student_id = request.data.get("student_id")
@@ -168,6 +240,9 @@ class AddStudentToGroupView(APIView):
 
 
 class GetCollegeGroupInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         # Get group_id from request data
         group_id = request.data.get("group_id")
@@ -208,6 +283,9 @@ class GetCollegeGroupInfoView(APIView):
 
 
 class RemoveStudentFromCollegeGroupView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         group_id = request.data.get("group_id")
         student_id = request.data.get("student_id")
@@ -242,6 +320,9 @@ class RemoveStudentFromCollegeGroupView(APIView):
 
 
 class CreateCategoryView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         category_name = request.data.get("name")
        
@@ -258,6 +339,9 @@ class CreateCategoryView(APIView):
     
 
 class ExpenseEntryAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def post(self, request):
         try:
             # Extract data from request
@@ -331,6 +415,9 @@ class ExpenseEntryAPIView(APIView):
 
 
 class SettlementListView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
     def get(self, request):
         # Fetch all settlement records
         settlements = Settlement.objects.all()

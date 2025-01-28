@@ -31,10 +31,10 @@ class Category(models.Model):
 # Expense Model
 class Expense(models.Model):
  
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True)
     split_type = models.CharField(max_length=50, default='equal')
-    date = models.DateField()
+    date = models.DateField(blank=True, null=True)
     receipt_image = models.ImageField(upload_to='receipts/', blank=True, null=True)
     user = models.ForeignKey(Student, on_delete=models.CASCADE)
 

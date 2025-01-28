@@ -11,5 +11,6 @@ urlpatterns = [
     path('remove-student-from-group', RemoveStudentFromCollegeGroupView.as_view(), name='remove_student_from_group'),
     path('add-student-to-group', AddStudentToGroupView.as_view(), name='add_student_to_group'),
     path('expenses-create', ExpenseEntryAPIView.as_view(), name='expense-entry'),
-    path('setlment-tracking', SettlementListView.as_view(), name='setlment-tracking')
+    path('setlment-tracking', SettlementListView.as_view(), name='setlment-tracking'),
+    path('monthly-analysis', MonthlyAnalysisAPI.as_view(), name='monthly-analysis')
 ]
