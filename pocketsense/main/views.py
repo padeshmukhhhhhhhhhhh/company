@@ -10,7 +10,9 @@ from django.shortcuts import redirect
 from django.conf import settings
 import random
 from django.contrib.auth.models import User
-
+from django.utils.dateparse import parse_date
+from decimal import Decimal
+from datetime import timedelta
 
 
 def generate_otp():
@@ -237,3 +239,111 @@ class RemoveStudentFromCollegeGroupView(APIView):
             "message": f"Student {student.username} removed from group {group.name}."
         }, status=status.HTTP_200_OK)
 
+
+
+class CreateCategoryView(APIView):
+    def post(self, request):
+        category_name = request.data.get("name")
+       
+
+        if not category_name:
+            raise ValidationError({"error": "Category name is required."})
+
+        # Create the group
+        category = Category.objects.create(name=category_name)
+        return Response({
+            "message": "Category created successfully.",
+            "category_id": category.id
+        }, status=status.HTTP_201_CREATED)
+    
+
+class ExpenseEntryAPIView(APIView):
+    def post(self, request):
+        try:
+            # Extract data from request
+            data = request.data
+            amount = Decimal(data.get('amount'))
+            category_id = data.get('category')
+            split_type = data.get('split_type', 'equal')
+            date = parse_date(data.get('date'))
+            user_id = data.get('user')
+            group_id = data.get('group')
+            receipt_image = request.FILES.get('receipt_image')
+
+            # Validate required fields
+            if not all([amount, date, user_id, group_id]):
+                return Response({"error": "Missing required fields."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Fetch user, category, and group
+            user = Student.objects.get(id=user_id)
+            category = Category.objects.get(id=category_id) if category_id else None
+            group = CollegeGroup.objects.get(id=group_id)
+            group_members = group.members.all()  # Assuming Group has ManyToManyField to Student
+
+           
+            expense = Expense.objects.create(
+                amount=amount,
+                category=category,
+                split_type=split_type,
+                date=date,
+                receipt_image=receipt_image,
+                user=user
+            )
+
+            expense_creation_date = date  # Use the date from user input
+            due_date = expense_creation_date + timedelta(days=30)  # You can adjust the number of days based on your business logic
+
+            # Handle equal split
+            if split_type == 'equal':
+                if len(group_members) > 0:
+                    equal_share = amount / Decimal(len(group_members))
+                else:
+                    return Response({"error":"Group not have members"})
+
+                settlements = []
+                for member in group_members:
+                    settlement = Settlement(
+                        expense=expense,
+                        amount=equal_share,
+                        payment_status='pending',
+                        settlement_method=None,
+                        due_date=due_date,
+                        user=member
+                    )
+                    settlements.append(settlement)
+
+                # Bulk create settlement entries
+                Settlement.objects.bulk_create(settlements)
+            else:
+                return Response({"error": "Only 'equal' split type is supported."}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({"message": "Expense recorded and settlements created successfully."}, status=status.HTTP_201_CREATED)
+
+        except Student.DoesNotExist:
+            return Response({"error": "Invalid user ID."}, status=status.HTTP_404_NOT_FOUND)
+        except CollegeGroup.DoesNotExist:
+            return Response({"error": "Invalid group ID."}, status=status.HTTP_404_NOT_FOUND)
+        except Category.DoesNotExist:
+            return Response({"error": "Invalid category ID."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+class SettlementListView(APIView):
+    def get(self, request):
+        # Fetch all settlement records
+        settlements = Settlement.objects.all()
+        data = []
+
+        for settlement in settlements:
+            data.append({
+                "expense_id": settlement.expense.id if settlement.expense else None,
+                "amount": str(settlement.amount),
+                "payment_status": settlement.payment_status,
+                "settlement_method": settlement.settlement_method,
+                "due_date": settlement.due_date.strftime("%Y-%m-%d") if settlement.due_date else None,
+                "user": settlement.user.username if settlement.user else None
+            })
+
+        return Response(data, status=status.HTTP_200_OK)

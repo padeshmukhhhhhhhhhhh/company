@@ -56,9 +56,11 @@ class Settlement(models.Model):
     payment_status = models.CharField(max_length=50,choices=payment_status,default='pending')
     settlement_method = models.CharField(max_length=50,blank=True, null=True)
     due_date = models.DateField(blank=True, null=True)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE,blank=True,null=True)
+
 
     def __str__(self):
-        return f"{self.group.name} - {self.amount}"
+        return f"{self.amount}"
     
 
 

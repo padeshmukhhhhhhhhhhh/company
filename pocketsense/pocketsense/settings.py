@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'rest_framework'
+    'rest_framework',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'djnagomail@gmail.com'
 EMAIL_HOST_PASSWORD = 'ytlp jrnx dstt kvws'
 
+
+CRONJOBS = [
+    ('0 0 * * *', 'main.config.send_payment_reminders')
+]
