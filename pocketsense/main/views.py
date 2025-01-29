@@ -19,6 +19,17 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
+import re
+import pytesseract
+from PIL import Image
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+import logging
+
+
+logger = logging.getLogger('file')
+
+
 
 
 MONTH_NAME_TO_NUMBER = {
@@ -36,10 +47,119 @@ MONTH_NAME_TO_NUMBER = {
     'December': 12
 }
 
+
+
+
+def extract_text_from_image(image_path):
+    img = Image.open(image_path)
+    text = pytesseract.image_to_string(img)
+    print(text)
+    return text
+
+
+
+
+class StudentProfileDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    def post(self, request):
+        # Extract student ID from request data
+        student_id = request.data.get('student_id')
+
+        if not student_id:
+            return Response({"error": "Student ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Fetch the student record
+        student = Student.objects.filter(id=student_id).first()
+
+        if not student:
+            return Response({"error": "Student not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Prepare the response data
+        profile_data = {
+            "student_id": student.id,
+            "username": student.username,
+            "email": student.email,
+            "upi_id": student.upi_id,
+            "college": student.college,
+            "semester": student.semester
+        }
+
+        return Response({"profile": profile_data}, status=status.HTTP_200_OK)
+
+
+class StudentProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    def put(self, request):
+        # Extract the student ID from the request
+        student_id = request.data.get('student_id')
+
+        if not student_id:
+            return Response({"error": "Please provide student_id."}, status=status.HTTP_404_NOT_FOUND)
+
+        
+        # Fetch the student record
+        student = Student.objects.filter(id=student_id).first()
+        
+        if not student:
+            return Response({"error": "Student id is incorrect."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Extract fields to update
+        username = request.data.get('username')
+        email = request.data.get('email')
+        upi_id = request.data.get('upi_id')
+        college = request.data.get('college')
+        semester = request.data.get('semester')
+
+        if not username:
+            return Response({"error": "Please provide username."}, status=status.HTTP_404_NOT_FOUND)
+
+
+        if not email:
+            return Response({"error": "Please provide email."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+        # Update username if provided and unique
+        if username != student.username:
+            if Student.objects.filter(username=username).exclude(id=student_id).exists():
+                return Response({"error": "Username already taken."}, status=status.HTTP_400_BAD_REQUEST)
+            student.username = username
+
+        
+        student.email = email
+
+        # Update UPI ID if provided and valid
+        if upi_id:
+            upi_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$'
+            if not re.match(upi_pattern, upi_id):
+                return Response({"error": "Invalid UPI ID format. It should be in the format 'name@bankname' or 'mobile@bankname'."},
+                                status=status.HTTP_400_BAD_REQUEST)
+            student.upi_id = upi_id
+
+        # Update college if provided
+        if college:
+            student.college = college
+
+        # Update semester if provided
+        if semester:
+            student.semester = semester
+
+        # Save the updated student record
+        student.save()
+
+        return Response({
+            "message": "Profile updated successfully!"
+           
+        }, status=status.HTTP_200_OK)
+
+
 class MonthlyAnalysisAPI(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+   
     def post(self, request):
         
         month_name = request.data.get('month_name', '').capitalize()
@@ -84,6 +204,8 @@ def generate_otp():
 
 
 class LoginView(APIView):
+
+   
     def post(self, request):
         email = request.data.get('email', '').strip()
         
@@ -115,6 +237,7 @@ class LoginView(APIView):
 
 
 class OTPView(APIView):
+   
     def post(self, request):
         email = request.data.get("email")
         if not email:
@@ -145,12 +268,14 @@ class OTPView(APIView):
 
 
 class StudentRegistrationView(APIView):
+    
     def post(self, request):
         # Extract required fields from the request
         username = request.data.get('username')
         email = request.data.get('email')
-        college = request.data.get('college', '')
-        semester = request.data.get('semester', '')
+        upi_id = request.data.get('upi_id')
+        college = request.data.get('college')
+        semester = request.data.get('semester')
 
         # Validate required fields
         if not username or not email:
@@ -163,13 +288,23 @@ class StudentRegistrationView(APIView):
         # Generate a default secure password
         default_password = 'student@1234'
 
+        if upi_id:
+            upi_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$'
+            if not re.match(upi_pattern, upi_id):
+                raise ValidationError("Invalid UPI ID format. It should be in the format 'name@bankname' or 'mobile@bankname'.")
+
+
+
         # Create the student object
         student = Student(
             username=username,
             email=email,
             college=college,
-            semester=semester
+            semester=semester,
+            upi_id=upi_id
         )
+        
+        
         
         # Set the default password securely
         student.set_password(default_password)
@@ -189,6 +324,7 @@ class CreateGroupView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+   
     def post(self, request):
         group_name = request.data.get("name")
        
@@ -208,6 +344,7 @@ class AddStudentToGroupView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+   
     def post(self, request):
         group_id = request.data.get("group_id")
         student_id = request.data.get("student_id")
@@ -243,6 +380,7 @@ class GetCollegeGroupInfoView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    
     def post(self, request):
         # Get group_id from request data
         group_id = request.data.get("group_id")
@@ -286,6 +424,8 @@ class RemoveStudentFromCollegeGroupView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+
+   
     def post(self, request):
         group_id = request.data.get("group_id")
         student_id = request.data.get("student_id")
@@ -323,6 +463,8 @@ class CreateCategoryView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+
+   
     def post(self, request):
         category_name = request.data.get("name")
        
@@ -342,6 +484,7 @@ class ExpenseEntryAPIView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    
     def post(self, request):
         try:
             # Extract data from request
@@ -415,22 +558,31 @@ class ExpenseEntryAPIView(APIView):
 
 
 class SettlementListView(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        # Fetch all settlement records
-        settlements = Settlement.objects.all()
-        data = []
+        logger.info("Received request to fetch all settlement records.")
 
-        for settlement in settlements:
-            data.append({
-                "expense_id": settlement.expense.id if settlement.expense else None,
-                "amount": str(settlement.amount),
-                "payment_status": settlement.payment_status,
-                "settlement_method": settlement.settlement_method,
-                "due_date": settlement.due_date.strftime("%Y-%m-%d") if settlement.due_date else None,
-                "user": settlement.user.username if settlement.user else None
-            })
+        try:
+            # Fetch all settlement records
+            settlements = Settlement.objects.all()
+            data = []
 
-        return Response(data, status=status.HTTP_200_OK)
+            logger.info(f"Number of settlements fetched: {settlements.count()}")
+
+            for settlement in settlements:
+                data.append({
+                    "expense_id": settlement.expense.id if settlement.expense else None,
+                    "amount": str(settlement.amount),
+                    "payment_status": settlement.payment_status,
+                    "settlement_method": settlement.settlement_method,
+                    "due_date": settlement.due_date.strftime("%Y-%m-%d") if settlement.due_date else None,
+                    "user": settlement.user.username if settlement.user else None
+                })
+
+            return Response(data, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            logger.error(f"Error while fetching settlement records: {str(e)}")
+            return Response({"detail": "Error fetching settlements."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

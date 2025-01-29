@@ -3,6 +3,8 @@ from .views import *
 
 urlpatterns = [
     path('register', StudentRegistrationView.as_view(), name='student_register'),
+    path('update-profile', StudentProfileUpdateView.as_view(), name='update-profile'),
+    path('get-profile', StudentProfileDetailView.as_view(), name='get-profile'),
     path('login', LoginView.as_view(), name='login'),
     path('otp', OTPView.as_view(), name='otp'),
     path('group-info', GetCollegeGroupInfoView.as_view(), name='get_college_group_info'),
