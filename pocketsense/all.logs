@@ -52,3 +52,367 @@ C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\vie
 Watching for file changes with StatReloader
 C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
 Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Received request to register a new student.
+Username already taken: ww1
+Bad Request: /api/register
+Received request to register a new student.
+Student registered successfully with ID: 6
+Unauthorized: /api/update-profile
+Not Found: /api
+Forbidden: /
+Forbidden: /
+Forbidden: /
+Internal Server Error: /admin/main/student/
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.ForeignKeyViolation: insert or update on table "django_admin_log" violates foreign key constraint "django_admin_log_user_id_c564eba6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(3) is not present in table "auth_user".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\options.py", line 688, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\decorators\cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\sites.py", line 242, in inner
+    return view(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\utils\decorators.py", line 46, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\options.py", line 1983, in changelist_view
+    response = self.response_action(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\options.py", line 1593, in response_action
+    response = func(self, request, queryset)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\actions.py", line 50, in delete_selected
+    modeladmin.log_deletion(request, obj, obj_display)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\options.py", line 957, in log_deletion
+    return LogEntry.objects.log_action(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\contrib\admin\models.py", line 38, in log_action
+    return self.model.objects.create(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.IntegrityError: insert or update on table "django_admin_log" violates foreign key constraint "django_admin_log_user_id_c564eba6_fk_auth_user_id"
+DETAIL:  Key (user_id)=(3) is not present in table "auth_user".
+
+Received request to register a new student.
+Student registered successfully with ID: 7
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Internal Server Error: /api/login
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `StreamingHttpResponse` to be returned from the view, but received a `<class 'NoneType'>`
+Received login request to send OTP.
+Internal Server Error: /api/login
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `StreamingHttpResponse` to be returned from the view, but received a `<class 'NoneType'>`
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received request to register a new student.
+Student registered successfully with ID: 8
+Received login request to send OTP.
+User found for email: prasannadeshmukh100@gmail.com
+OTP email sent successfully to: prasannadeshmukh100@gmail.com
+Received OTP verification request.
+OTP verified successfully for email: prasannadeshmukh100@gmail.com
+Method Not Allowed: /api/update-profile
+Received request for student profile update.
+Updating profile for student ID: 6
+Username 'prsannaa' is already taken by another student.
+Bad Request: /api/update-profile
+Received request for student profile update.
+Updating profile for student ID: 6
+Updating username to 'prsannaa2' for student ID: 6
+Updating UPI ID to 'prasanna@bankname' for student ID: 6
+Updating college to 'Tech University' for student ID: 6
+Updating semester to '5' for student ID: 6
+Profile updated successfully for student ID: 6
+Received request for student profile details.
+Fetching profile details for student ID: 6
+Student profile found for ID: 6
+Successfully retrieved profile data for student ID: 6
+Received request to create a new group.
+Group created successfully with ID: 2 and name: trip_groups
+Returning success response for group creation.
+Received request to get college group info.
+Invalid group ID type: str
+Bad Request: /api/group-info
+Received request to get college group info.
+Fetched 0 members for group ID: 2
+Successfully fetched group data for group ID: 2
+Received request to add student to group.
+Student prsanna added to group trip_groups.
+Received request to get college group info.
+Fetched 1 members for group ID: 2
+Successfully fetched group data for group ID: 2
+Received request to create category with name: entertainment
+Category created successfully with ID: 2
+An error occurred: unsupported operand type(s) for /: 'float' and 'decimal.Decimal'
+Internal Server Error: /api/expenses-create
+Successfully created expense and settlements for group: 2
+Unauthorized: /api/setlment-tracking
+Received OTP verification request.
+Invalid OTP entered for email: pddeshmukh713@gmail.com
+Bad Request: /api/otp
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Error occurred while processing login request: get() returned more than one Student -- it returned 2!
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py", line 266, in post
+    user = Student.objects.get(email=email)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\db\models\query.py", line 640, in get
+    raise self.model.MultipleObjectsReturned(
+main.models.Student.MultipleObjectsReturned: get() returned more than one Student -- it returned 2!
+Internal Server Error: /api/login
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+Internal Server Error: /api/login
+Traceback (most recent call last):
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 511, in dispatch
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+  File "C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\myenv\lib\site-packages\rest_framework\views.py", line 423, in finalize_response
+    assert isinstance(response, HttpResponseBase), (
+AssertionError: Expected a `Response`, `HttpResponse` or `StreamingHttpResponse` to be returned from the view, but received a `<class 'NoneType'>`
+C:\Users\prana\OneDrive\Desktop\prasanna\New folder\company\pocketsense\main\views.py changed, reloading.
+Watching for file changes with StatReloader
+Received login request to send OTP.
+User found for email: prasannadeshmukh100@gmail.com
+OTP email sent successfully to: prasannadeshmukh100@gmail.com
+Received OTP verification request.
+OTP verified successfully for email: prasannadeshmukh100@gmail.com
+Method Not Allowed: /api/setlment-tracking
+Received request to fetch all settlement records.
+Number of settlements fetched: 2
+Received request for monthly analysis.
+Month is missing from the request.
+Bad Request: /api/monthly-analysis
+Received request for monthly analysis.
+Bad Request: /api/monthly-analysis
+Received request for monthly analysis.
+Month is missing from the request.
+Bad Request: /api/monthly-analysis
+Received request for monthly analysis.
+Month is missing from the request.
+Bad Request: /api/monthly-analysis
+Received request for monthly analysis.
+Retrieved 3 expense records for month January, year 2025.
+Retrieved 1 settlement records for month January, year 2025.
+Received request to remove student with ID: 7 from group with ID: 2
+Student prsanna removed from group trip_groups.

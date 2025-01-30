@@ -262,35 +262,30 @@ class LoginView(APIView):
             logger.error("Email not provided in the request.")
             return Response({"error": "Please provide email."}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            user = Student.objects.get(email=email)
-            logger.info("User found for email: %s", email)
+        
+        user = Student.objects.filter(email=email).first()
+        if not user:
+            return Response({"message":"email not found"})
+        print(user)
+        logger.info("User found for email: %s", email)
 
-            # Generate and set OTP
-            otp = generate_otp()
-            user.otp = otp
-            user.save()
-            logger.debug("OTP generated and saved for user: %s", email)
+        # Generate and set OTP
+        otp = generate_otp()
+        user.otp = otp
+        user.save()
+        logger.debug("OTP generated and saved for user: %s", email)
 
-            # Send OTP email
-            send_mail(
-                'Subject: Your OTP',
-                f'Your OTP is: {otp}',
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
-            )
-            logger.info("OTP email sent successfully to: %s", email)
+        # Send OTP email
+        send_mail(
+            'Subject: Your OTP',
+            f'Your OTP is: {otp}',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
+        logger.info("OTP email sent successfully to: %s", email)
 
-            return Response({"message": "OTP sent successfully!"}, status=status.HTTP_200_OK)
-
-        except Student.DoesNotExist:
-            logger.warning("No user found for the provided email: %s", email)
-            return Response({"error": "Please enter a correct email."}, status=status.HTTP_400_BAD_REQUEST)
-
-        except Exception as e:
-            logger.exception("Error occurred while processing login request: %s", str(e))
-            return Response({"error": "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"message": "OTP sent successfully!"}, status=status.HTTP_200_OK)
 
 
 class OTPView(APIView):
